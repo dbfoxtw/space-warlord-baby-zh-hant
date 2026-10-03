@@ -22,6 +22,12 @@ namespace SwbZhHant
         /// <summary>整句對照：英文（去頭尾空白）→中文。I2 的部分在語言表載入時才建立。</summary>
         readonly Dictionary<string, string> _exact = new Dictionary<string, string>(StringComparer.Ordinal);
         readonly List<(string trigger, Regex regex, string replacement)> _rules = new List<(string, Regex, string)>();
+        /// <summary>
+        /// 存檔用（見 SaveText）：I2 的英文原文⇄譯文，只有語言表的條目、不去空白。
+        /// 同一句中文對到多個英文時取第一個（2026-10-03 查過只有 7 組，都是同義詞，例如 Sara／Sarah）。
+        /// </summary>
+        readonly Dictionary<string, string> _enToZh = new Dictionary<string, string>(StringComparer.Ordinal);
+        readonly Dictionary<string, string> _zhToEn = new Dictionary<string, string>(StringComparer.Ordinal);
         readonly HashSet<LanguageSourceData> _applied = new HashSet<LanguageSourceData>();
         readonly HashSet<string> _misses = new HashSet<string>(StringComparer.Ordinal);
         readonly string _missPath;
@@ -29,6 +35,10 @@ namespace SwbZhHant
         static readonly Regex Letters = new Regex("[A-Za-z]{3,}", RegexOptions.Compiled);
 
         public int TermCount => _terms.Count;
+        /// <summary>I2 語言表已經換成譯文（存檔轉換要用的對照已建立）。</summary>
+        public bool SaveMapsReady => _zhToEn.Count > 0;
+        public string SaveToEnglish(string s) => s != null && _zhToEn.TryGetValue(s, out var en) ? en : s;
+        public string SaveToChinese(string s) => s != null && _enToZh.TryGetValue(s, out var zh) ? zh : s;
         public int RuleCount => _rules.Count;
         public int ExactCount => _exact.Count;
         /// <summary>所有譯文用到的字（除錯模式的字型自我測試用）。</summary>
@@ -88,6 +98,11 @@ namespace SwbZhHant
                 t.Languages[en] = e.zh;
                 var key = (orig ?? "").Trim();
                 if (key.Length > 0 && !_exact.ContainsKey(key)) _exact[key] = e.zh;
+                if (!string.IsNullOrEmpty(orig))
+                {
+                    _enToZh[orig] = e.zh;
+                    if (!_zhToEn.ContainsKey(e.zh)) _zhToEn[e.zh] = orig;
+                }
                 applied++;
             }
             _log.Msg($"I2 語言表：套用 {applied} 條、沒有譯文 {missing} 條（維持英文）、原文已變動 {changed} 條（暫停套用）");

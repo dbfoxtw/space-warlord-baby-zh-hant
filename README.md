@@ -37,11 +37,12 @@
 
 ## 移除
 
-刪除遊戲資料夾裡的 `Mods\SpaceWarlordBabyZhHant.dll` 與 `UserData\ZhHant` 資料夾，就回到原版英文，存檔可以直接沿用。MelonLoader 本身要另外移除：刪除 `version.dll`、`MelonLoader`、`Mods`、`Plugins`、`UserData`、`UserLibs`。
+刪除遊戲資料夾裡的 `Mods\SpaceWarlordBabyZhHant.dll` 與 `UserData\ZhHant` 資料夾，就回到原版英文，存檔可以直接沿用（v1.0.0 會把玩家稱號與收藏的嬰兒以中文存檔；用 v1.0.1 以後的版本再存一次檔，就會換回英文）。MelonLoader 本身要另外移除：刪除 `version.dll`、`MelonLoader`、`Mods`、`Plugins`、`UserData`、`UserLibs`。
 
 ## 運作方式
 
-- 遊戲是 Unity Mono 版本，mod 透過 MelonLoader（Harmony）掛上攔截。遊戲檔與存檔都不修改，拔掉 mod 就回到原版英文。
+- 遊戲是 Unity Mono 版本，mod 透過 MelonLoader（Harmony）掛上攔截。遊戲檔不修改，拔掉 mod 就回到原版英文。
+- **存檔**：遊戲有幾個欄位存的是畫面上的文字（每日情境的玩家稱號、收藏嬰兒的名字與人生事件）。mod 存檔時把它們換回英文、讀檔時再換成中文，所以存檔內容和原版相同。
 - **語言表**：遊戲的文字大多在 I2 Localization 的語言表裡。語言表載入時，mod 把英文欄換成譯文（以條目名稱對應）。
 - **寫死的文字**：少數介面文字寫死在場景或程式裡，mod 在文字要顯示時（SuperTextMesh、TextMeshPro、UGUI Text）查表翻譯。程式拼出來的句子（例如天數、接上金額的標籤）用正規表示式翻譯。
 - **遊戲更新**：每條譯文都記著翻譯時英文原文的雜湊。遊戲更新改了某條英文時，mod 會跳過那條、維持英文，避免顯示過時的譯文；新增的文字也會是英文，等 mod 更新。
@@ -102,14 +103,14 @@ Find the game folder: in your Steam library, right-click Space Warlord Baby Trad
 
 To update the mod, just repeat step 2.
 
-**Uninstall:** delete `Mods\SpaceWarlordBabyZhHant.dll` and the `UserData\ZhHant` folder. Saves work with or without the mod.
+**Uninstall:** delete `Mods\SpaceWarlordBabyZhHant.dll` and the `UserData\ZhHant` folder. Saves work with or without the mod (v1.0.0 saved the scenario title and bookmarked babies in Chinese; saving once with v1.0.1 or later turns them back into English).
 
 **Notes**
 
 - Voice commands still only work in English (the game only recognizes English); their descriptions keep the English commands.
 - The credits stay in English.
 - Known conflicts: other translation mods, and mods that change SuperTextMesh or TextMeshPro text or fonts.
-- How it works: the game is a Unity Mono build, hooked through MelonLoader (Harmony). When the I2 Localization language table loads, the mod replaces its English column with the translation, matched by term name. Each translation stores a hash of the English text it was made from; if a game update changes that text, the entry stays in English instead of showing an outdated translation. A few strings hard-coded in scenes or code are translated right before display. Game files and saves are never modified.
+- How it works: the game is a Unity Mono build, hooked through MelonLoader (Harmony). When the I2 Localization language table loads, the mod replaces its English column with the translation, matched by term name. Each translation stores a hash of the English text it was made from; if a game update changes that text, the entry stays in English instead of showing an outdated translation. A few strings hard-coded in scenes or code are translated right before display. Game files are never modified. The few save fields that store displayed text (scenario title, bookmarked babies) are written in English and translated back on load, so saves stay identical to the unmodded format.
 - Chinese text uses a pixel font made from Cubic 11, sized to the game's low-resolution UI.
 - Build from source (developers only): extract MelonLoader 0.7.3 into the game folder, generate the font bundle as described in [fonts/README.md](fonts/README.md), then run `install.bat` (requires Python 3.10+ and the .NET SDK 6+).
 - License: MIT for the code and translation data in this repository. The pixel font (SWB ZhHant Pixel, a modified Cubic 11) is under the SIL Open Font License 1.1. The game's text, names, and assets belong to Strange Scaffold.

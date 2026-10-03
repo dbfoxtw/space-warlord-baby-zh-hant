@@ -11,7 +11,7 @@ using MelonLoader.Utils;
 using TMPro;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(SwbZhHant.ZhHantMod), "Space Warlord Baby 繁體中文", "1.0.0", "dbfoxtw")]
+[assembly: MelonInfo(typeof(SwbZhHant.ZhHantMod), "Space Warlord Baby 繁體中文", "1.0.1", "dbfoxtw")]
 [assembly: MelonGame("Strange Scaffold", "Space Warlord Baby Trading Simulator")]
 [assembly: HarmonyDontPatchAll] // 翻譯資料載入後才手動掛上攔截
 
@@ -65,9 +65,17 @@ namespace SwbZhHant
             Patch(AccessTools.Method(typeof(LocalizationManager), "AddSource"), postfix: nameof(AddSourcePostfix));
             foreach (var s in LocalizationManager.Sources) Tr.ApplyToSource(s);
 
+            // 存檔：寫入前把顯示文字換回英文、讀檔後換回中文（見 SaveText）
+            Patch(AccessTools.Method(typeof(SaveSystem), nameof(SaveSystem.EncryptDecrypt)),
+                prefix: nameof(SaveEncryptPrefix), postfix: nameof(SaveDecryptPostfix));
+
             // SuperTextMesh：所有 Rebuild 多載都走到這個，場景裡序列化的文字也會經過
             Patch(AccessTools.Method(typeof(SuperTextMesh), nameof(SuperTextMesh.Rebuild), new[] { typeof(float), typeof(bool), typeof(bool) }),
                 prefix: nameof(StmRebuildPrefix));
+            // 中文字的頂點對齊像素格（見 SnapVerts）：三個方法分別算好讀完、讀到一半、還沒讀的頂點，SetMesh 再交給畫面
+            Patch(AccessTools.Method(typeof(SuperTextMesh), "UpdateMesh"), postfix: nameof(StmEndVertsPostfix));
+            Patch(AccessTools.Method(typeof(SuperTextMesh), "UpdateDrawnMesh"), postfix: nameof(StmMidVertsPostfix));
+            Patch(AccessTools.Method(typeof(SuperTextMesh), "UpdatePreReadMesh"), postfix: nameof(StmStartVertsPostfix));
             // 標題描邊在執行時被改色（見 EffectColorPrefix）
             Patch(AccessTools.PropertySetter(typeof(UnityEngine.UI.Shadow), nameof(UnityEngine.UI.Shadow.effectColor)),
                 prefix: nameof(EffectColorPrefix));
@@ -82,7 +90,7 @@ namespace SwbZhHant
                 Patch(m, prefix: nameof(FirstArgPrefix));
                 n++;
             }
-            Patch(AccessTools.PropertySetter(typeof(UnityEngine.UI.Text), nameof(UnityEngine.UI.Text.text)), prefix: nameof(FirstArgPrefix));
+            Patch(AccessTools.PropertySetter(typeof(UnityEngine.UI.Text), nameof(UnityEngine.UI.Text.text)), prefix: nameof(UguiTextPrefix));
             n++;
             Log.Msg($"已攔截 SuperTextMesh.Rebuild 與 TMP／UGUI 的 {n} 個文字設定方法");
         }
@@ -98,6 +106,35 @@ namespace SwbZhHant
         {
             try { Tr.ApplyToSource(Source); }
             catch (Exception e) { Log.Error($"套用 I2 譯文失敗：{e}"); }
+        }
+
+        /// <summary>
+        /// SaveSystem.EncryptDecrypt(data, loading)：存檔時 data 是 JSON（加密前），讀檔時傳回值是 JSON（解密後）。
+        /// 轉換失敗一律維持原樣，絕不擋住存讀檔。
+        /// </summary>
+        static void SaveEncryptPrefix(ref string data, bool loading)
+        {
+            if (loading || string.IsNullOrEmpty(data) || !Tr.SaveMapsReady) return;
+            try
+            {
+                data = SaveText.Convert(data, Tr.SaveToEnglish, out int n);
+                if (DebugMode && n > 0) Log.Msg($"存檔：{n} 個欄位換回英文");
+            }
+            catch (Exception e) { Log.Error($"存檔轉換失敗，照原樣存檔：{e}"); }
+        }
+
+        static void SaveDecryptPostfix(ref string __result, bool loading)
+        {
+            if (!loading || string.IsNullOrEmpty(__result)) return;
+            try
+            {
+                // 讀檔可能早於第一次翻譯（語言表還沒註冊）：照遊戲自己第一次取譯文時的做法先初始化 I2
+                if (!Tr.SaveMapsReady) LocalizationManager.InitializeIfNeeded();
+                if (!Tr.SaveMapsReady) { Log.Warning("讀檔時語言表還沒換成譯文，存檔裡的英文改在顯示時翻譯"); return; }
+                __result = SaveText.Convert(__result, Tr.SaveToChinese, out int n);
+                Log.Msg($"讀檔：{n} 個欄位換成中文");
+            }
+            catch (Exception e) { Log.Error($"讀檔轉換失敗，照原樣讀檔：{e}"); }
         }
 
         /// <summary>
@@ -129,6 +166,48 @@ namespace SwbZhHant
             }
             catch (Exception e) { Log.Error($"載入 pixel.bundle 失敗，改用 Silver：{e}"); }
             return _pixelFont;
+        }
+
+        static readonly AccessTools.FieldRef<SuperTextMesh, Vector3[]> EndVerts = AccessTools.FieldRefAccess<SuperTextMesh, Vector3[]>("endVerts");
+        static readonly AccessTools.FieldRef<SuperTextMesh, Vector3[]> MidVerts = AccessTools.FieldRefAccess<SuperTextMesh, Vector3[]>("midVerts");
+        static readonly AccessTools.FieldRef<SuperTextMesh, Vector3[]> StartVerts = AccessTools.FieldRefAccess<SuperTextMesh, Vector3[]>("startVerts");
+
+        static void StmEndVertsPostfix(SuperTextMesh __instance) => SnapVerts(__instance, EndVerts(__instance));
+        static void StmMidVertsPostfix(SuperTextMesh __instance) => SnapVerts(__instance, MidVerts(__instance));
+        static void StmStartVertsPostfix(SuperTextMesh __instance) => SnapVerts(__instance, StartVerts(__instance));
+
+        /// <summary>
+        /// 含中文的介面 STM：頂點換算到根 Canvas 座標（＝畫面像素：Pixel Camera 正交大小 180、640×360 的 RenderTexture、
+        /// Canvas 在原點，所以 Canvas 的整數座標就是像素邊界）後取整數，再換回本地座標。
+        /// 字的四邊形和字型貼圖都是整數像素（size 是 quality 的整數比，StmRebuildPrefix 已經對齊），只要頂點落在像素邊界，
+        /// 貼圖就一列不差地畫出來；落在小數像素上，材質的 PIXELSNAP 會把上下緣各自四捨五入，字可能少一列。
+        /// 2026-10-03 星球趨勢說明（行距 0.8、垂直置中、掛 STMPixelSnap）「升」少了長橫：
+        /// - STM 產生頂點時整段再加 (lineSpacing − 1) × size（0.8 × 18 → −3.6 像素）與置中的 anchorOffset；
+        /// - 遊戲的 STMPixelSnap 再依文字框寬高平移一段小數（它的 snapping 值是開發者對英文逐一手調的，0.25、0.826…）；
+        /// - 面板打開的動畫停下時，文字物件本身也可能在小數位置。
+        /// 只在本地座標取整數不夠（第二次修正實測無效），所以每次算頂點時用當下的位置換算。
+        /// 實測（第九次，除錯紀錄已拿掉）：網格本身正確（四邊形高 13＝貼圖高 13、縮放 1），但滑入動畫中的文字原點在 504.127、499.9 這種位置；
+        /// 改成 Canvas 座標取整數後，逐列比對截圖「升」的 11 列都在。
+        /// 掛 STMPixelSnap 的文字每一格都會重算頂點（它讓 STM 進入動畫狀態），面板滑動停下後也會對齊。
+        /// 只動 RectTransform 的 STM：3D 場景裡的 STM 單位是公尺。原版英文不動，維持遊戲原本的樣子。
+        /// </summary>
+        static void SnapVerts(SuperTextMesh stm, Vector3[] verts)
+        {
+            try
+            {
+                if (verts == null || verts.Length == 0 || !stm.uiMode || !Translator.HasCjk(stm._text)) return;
+                var root = stm.t.GetComponentInParent<Canvas>()?.rootCanvas;
+                var toCanvas = root != null ? root.transform.worldToLocalMatrix * stm.t.localToWorldMatrix : Matrix4x4.identity;
+                var toLocal = toCanvas.inverse;
+                for (int i = 0; i < verts.Length; i++)
+                {
+                    var c = toCanvas.MultiplyPoint3x4(verts[i]);
+                    c.x = Mathf.Floor(c.x + 0.5f);
+                    c.y = Mathf.Floor(c.y + 0.5f);
+                    verts[i] = toLocal.MultiplyPoint3x4(c);
+                }
+            }
+            catch (Exception e) { Log.Error($"STM 頂點對齊失敗：{e.Message}"); }
         }
 
         /// <summary>
@@ -225,6 +304,27 @@ namespace SwbZhHant
         {
             try { __0 = Tr.Translate(__0); }
             catch (Exception e) { Log.Error($"翻譯失敗：{e.Message}"); }
+        }
+
+        /// <summary>
+        /// UGUI Text：翻譯；含中文、字型是 Silver／Astrolab 時換成中文像素字型（和 STM 一樣，字級對齊 18 的倍數）。
+        /// 沒換的話中文用 Silver 自帶的漢字：19 像素格畫在 18 的字級上，掉像素又窄
+        /// （2026-10-03 收藏嬰兒年齡下方的「歲／個月」擠成一團）。
+        /// </summary>
+        static void UguiTextPrefix(UnityEngine.UI.Text __instance, ref string __0)
+        {
+            try
+            {
+                __0 = Tr.Translate(__0);
+                if (!Translator.HasCjk(__0)) return;
+                var font = __instance.font;
+                var pixel = PixelFont();
+                if (font == null || pixel == null || font == pixel || !ReplacedFonts.Contains(font.name)) return;
+                __instance.font = pixel;
+                if (__instance.fontSize >= 12 && __instance.fontSize % PixelEm != 0)
+                    __instance.fontSize = PixelEm * Math.Max(1, (int)Math.Round(__instance.fontSize / (double)PixelEm));
+            }
+            catch (Exception e) { Log.Error($"UGUI 翻譯失敗：{e.Message}"); }
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)

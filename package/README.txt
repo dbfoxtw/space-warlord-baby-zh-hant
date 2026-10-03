@@ -22,10 +22,11 @@ Space Warlord Baby Trading Simulator 繁體中文化 mod（非官方） v{versio
 
 【移除】
 刪除遊戲資料夾裡的 Mods\SpaceWarlordBabyZhHant.dll 與 UserData\ZhHant 資料夾，就回到原版英文，存檔可以直接沿用。
+（v1.0.0 會把玩家稱號與收藏的嬰兒以中文存檔；用 v1.0.1 以後的版本再存一次檔，就會換回英文。）
 MelonLoader 本身要另外移除：刪除 version.dll、MelonLoader、Mods、Plugins、UserData、UserLibs。
 
 【說明】
-- 不修改遊戲檔與存檔。拔掉 mod 就回到原版英文。
+- 不修改遊戲檔。存檔裡的玩家稱號、收藏的嬰兒會存成英文、讀檔時再換成中文，存檔內容和原版相同。拔掉 mod 就回到原版英文。
 - 語音指令仍然只能用英文（遊戲只辨識英文），說明文字會保留英文指令。
 - 製作群名單維持英文。
 - 遊戲更新後，改過的英文會維持英文、不顯示過時的譯文；新增的文字也是英文，等 mod 更新。
@@ -63,10 +64,11 @@ Find the game folder: Steam library → right-click the game → Manage → Brow
 To update the mod, just repeat step 2.
 
 Uninstall
-Delete Mods\SpaceWarlordBabyZhHant.dll and the UserData\ZhHant folder. Saves work with or without the mod.
+Delete Mods\SpaceWarlordBabyZhHant.dll and the UserData\ZhHant folder. Saves work with or without the mod (saves made with v1.0.0 store the scenario title and
+bookmarked babies in Chinese; saving once with v1.0.1 or later turns them back into English).
 
 Notes
-- Game files and saves are never modified.
+- Game files are never modified. Save fields that store displayed text are written in English, so saves stay unmodded.
 - Voice commands still only work in English (the game only recognizes English).
 - The credits stay in English.
 - After a game update, changed English lines stay in English instead of showing outdated translations.

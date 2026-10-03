@@ -68,6 +68,8 @@ START OVER	重新開始
 Restart	重新開始
 RESTART CAMPAIGN	重新開始劇情
 Are you sure you want to restart this campaign?	確定要重新開始這段劇情嗎？
+# 劇情選單、情境選單的重新開始確認框（UICampaignSelectionRoot、UIScenarioSelectionMenu）：兩句接成一個字串
+Are you sure you want to restart this campaign?\n\nYour best result will remain.	確定要重新開始這段劇情嗎？\n\n你的最佳紀錄會保留。
 VIEW STATUS	查看狀態
 VIEW BEST	查看最佳紀錄
 VIEW RESULTS	查看結果
@@ -115,6 +117,14 @@ LOCKED	未解鎖
 Locked	未解鎖
 COMPLETE	完成
 FAILED	失敗
+# 劇情進度：CampaignState.GetPlaythroughStatus。選劇情畫面右邊的詳情會再 ToUpper（UICampaignSelectionHoverDetails）
+Completed	已完成
+COMPLETED	已完成
+Incomplete	未完成
+INCOMPLETE	未完成
+Failed	失敗
+Not started	尚未開始
+NOT STARTED	尚未開始
 Campaign not yet available.	劇情尚未開放。
 Starting funds:	起始資金：
 BEST:	最佳紀錄：
@@ -228,6 +238,9 @@ Trading gross:	交易總額：
 Side bet gross:	附加賭注總額：
 WIN	贏
 LOSS	輸
+# 附加賭注結算：UISideBetResultSlot 組成「WIN\n金額」「LOSS\n金額」
+WIN\n	^WIN\n	贏\n
+LOSS\n	^LOSS\n	輸\n
 USED	已使用
 Human	人類
 VERY HEALTHY	非常健康
