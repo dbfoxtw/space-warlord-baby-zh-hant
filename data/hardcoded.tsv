@@ -1,0 +1,356 @@
+# 寫死在場景、程式碼、資料物件裡的英文（不在 I2 語言表）。mod 在顯示文字時套用。
+# 兩欄＝整句對照：英文<Tab>中文（比對時忽略頭尾空白，保留原本的空白與換行）。
+# 三欄＝規則：觸發字串<Tab>正規表示式（.NET）<Tab>替換文字。文字含觸發字串才會跑，依檔案順序套用，$1 是擷取群組。
+# 程式碼拼接的句子裡，星球名、嬰兒名等片段已經由 I2 換成中文，所以規則的擷取群組常常已經是中文。
+# 跳脫：\n 換行、\t tab；反斜線照寫（正規表示式直接寫 \d）。
+
+# 主選單、設定、共用按鈕
+DISMISS	關閉
+Continue	繼續
+CONTINUE	繼續
+PLAY	開始
+Play	開始
+Play again	再玩一次
+SETTINGS	設定
+Settings	設定
+CREDITS	製作群
+EXIT GAME	離開遊戲
+YES	是
+NO	否
+BACK	返回
+NEXT	下一步
+SELECT	選擇
+ACCEPT	接受
+REJECT	拒絕
+Close	關閉
+Toggle	切換
+MASTER VOLUME	主音量
+MUSIC VOLUME	音樂音量
+EFFECTS VOLUME	音效音量
+Screenshake	畫面震動
+Use OpenDyslexic	使用 OpenDyslexic 字型
+Voice Input	語音輸入
+Gamepad Vibration	手把震動
+High Contrast Text	高對比文字
+Slow Trading Day Speed	放慢交易日速度
+Apply Resolution	套用解析度
+# 視窗模式：SettingsManager.BabyFullScreenMode 列舉直接 ToString() 顯示
+Fullscreen	全螢幕
+Borderless	無邊框視窗
+Windowed	視窗
+VSYNC	垂直同步
+POST PROCESSING	後製效果
+Reset Tutorial	重設教學
+Are you sure you want to reset the tutorial?	確定要重設教學嗎？
+Set Input Device	設定輸入裝置
+Voice Commands	語音指令
+Voice Tutorial	語音教學
+Show Voice Commands	顯示語音指令
+CONTENT WARNING	內容警告
+ABOUT THIS GAME	關於本遊戲
+PAUSED	暫停
+EXIT TO MENU	回主選單
+Default	預設
+
+# 模式選擇、劇情、情境
+MODE SELECTION	模式選擇
+PLAY CAMPAIGNS	遊玩劇情
+PLAY SCENARIOS	遊玩情境
+CAMPAIGNS	劇情
+SCENARIOS	情境
+Campaigns	劇情
+Scenarios	情境
+Make your own way and unlock rewards by succeeding in difficult gameplay scenarios.	在困難的遊戲情境中闖出一片天，解鎖獎勵。
+Vicariously experience the highs and lows of traders from across the galaxy as they try to get that bag.	跟著銀河各地拚命賺錢的交易員，體驗他們的大起大落。
+SELECT A TRADER	選擇交易員
+Play Campaign	開始劇情
+START OVER	重新開始
+Restart	重新開始
+RESTART CAMPAIGN	重新開始劇情
+Are you sure you want to restart this campaign?	確定要重新開始這段劇情嗎？
+VIEW STATUS	查看狀態
+VIEW BEST	查看最佳紀錄
+VIEW RESULTS	查看結果
+CAMPAIGN COMPLETE	劇情完成
+SCENARIO COMPLETE	情境完成
+DAILY COMPLETE	每日情境完成
+RECAP	回顧
+Next Goal:	下一個目標：
+Campaign saved.	劇情已存檔。
+Campaign Saved.	劇情已存檔。
+EXIT CAMPAIGN	離開劇情
+EXIT CAMPAIGN?\n(Progress since day start will be lost)	離開劇情？\n（今天開始後的進度將會遺失）
+WARNING: quitting will fail today's daily scenario.	警告：離開會讓今天的每日情境失敗。
+NURSERY OF FAME	名嬰堂
+NO BABIES BOOKMARKED	沒有收藏的嬰兒
+REMOVE BOOKMARK	移除收藏
+REMOVE FROM BOOKMARKS	移除收藏
+Are you sure you want to remove this baby from your bookmarks?	確定要把這個嬰兒移出收藏嗎？
+THEATER	劇院
+Opening	開場
+Ending	結局
+# 程式會先 ToUpper() 再顯示的：劇院的過場名稱、劇情筆記分頁、設定選單分頁（分頁名是 GameObject 名稱）
+OPENING	開場
+ENDING	結局
+AVAILABLE PLANETS	可交易的星球
+AUDIO	聲音
+VISUALS	畫面
+ACC.	無障礙
+MISC.	其他
+NAMES	頭銜
+PORTRAITS	頭像
+TOGGLE BEST	切換最佳紀錄
+More scenarios coming soon.	更多情境即將推出。
+COMPLETE - Return tomorrow.	完成——明天再來。
+FAILED - Return tomorrow.	失敗——明天再來。
+NO PROGRESS	沒有進度
+No ongoing playthrough	沒有進行中的劇情
+Ongoing:	進行中：
+CURRENT:	目前：
+Gameplay notes:	玩法說明：
+NEW	新
+NEW!	新！
+New	新
+LOCKED	未解鎖
+Locked	未解鎖
+COMPLETE	完成
+FAILED	失敗
+Campaign not yet available.	劇情尚未開放。
+Starting funds:	起始資金：
+BEST:	最佳紀錄：
+Available Planets	可交易的星球
+Consultants	顧問
+Notes	筆記
+• None	• 無
+You are who you are.	你就是你。
+Bronze	銅
+Silver	銀
+NEW Daily Scenario available!	新的每日情境開放了！
+LEGALLY MURDERED	合法謀殺
+RUINED	破產
+A randomized daily challenge.	隨機產生的每日挑戰。
+FINAL DAY	最後一天
+
+# 交易
+BUY	買進
+SELL	賣出
+SHORT	放空
+CASH OUT	兌現
+VOIDED	作廢
+Trade Baby	交易嬰兒
+TRADE BABY	交易嬰兒
+SELECT A BABY	選擇嬰兒
+MARK FOR TRADE	標記交易
+PROFIT	獲利
+Profit/Loss	損益
+LOANED	已借款
+SHOP	商店
+SIDE BET	附加賭注
+SIDE BETS	附加賭注
+LOAN SHARK	高利貸
+OFFER:	提議：
+UPDATES	更新
+ID CARD	身分證
+NOTES	筆記
+BIOGRAPHY	生平
+GOALS	目標
+TODAY'S FORECAST	今日預測
+PLACE BET	下注
+BET	下注
+# 下方嬰兒列表押過附加賭注的標記：UIButtonBabyListing 組成「BET\nx次數」
+BET\nx	^BET\nx(\d+)$	下注\nx$1
+MAX	最大
+Trade Here	在此交易
+Trend:	趨勢：
+INVESTIGATE	調查
+HIRE	僱用
+HIRED	已僱用
+RESULTS	結果
+CONSULTANTS	顧問
+SUMMARY	摘要
+ROLODEX	名片夾
+Average stock price:	平均股價：
+NAME:	名字：
+SPECIES:	物種：
+SPECIES	物種
+# 選擇嬰兒畫面左上的標籤：兩行寫在同一個文字元件裡
+Name\nSpecies	名字\n物種
+POPULATION:	人口：
+NEWS FLASH!	快訊！
+Out:	賣出：
+In:	買進：
+Short:	放空：
+!!! TRADING IS OPEN !!!	！！！開始交易！！！
+STATUS	狀態
+WALLET CAP REACHED	錢包已達上限
+Rank Progress	等級進度
+RANK UP!	升級！
+SHORTING STARTED	開始放空
+Increased Storage	擴充庫存
+TRADING RESULTS	交易結果
+END OF DAY RESULTS	今日結算
+STAR MAP	星圖
+MAJOR EVENT	重大事件
+Trading Stakes:	交易倍率：
+Higher stakes available	可提高倍率
+Higher stakes recommended.	建議提高倍率。
+Entry fee:	入場費：
+Cannot afford to trade.	付不起交易費用。
+Low Funds	資金不足
+INTERFERENCE	干擾
+ODDS	賠率
+# 預測的賠率：UIPreTradingBookieBet 組成「1 to 5 (20%)」，押中拿回本金×5/1（BabyBet.GetWinnings），所以譯「1 賠 5」。
+# 欄位只有 84 像素（level2 的 Odds 文字：Bookie Prediction 寬 170、sizeDelta -86），中文像素字型字寬：數字 7（1 是 6）、
+# 空白 4、半形括號 6、% 8、賠 13。所以「賠」兩邊不空格、用半形括號：最長的「49賠50 (98%)」79 像素；
+# 「13 賠 50 (26%)」86 像素、「6 賠 25（24%）」90 像素，實機都換成兩行
+%)	^(\d+) to (\d+) \((\d+)%\)$	$1賠$2 ($3%)
+PREDICTION	預測
+Good	好
+Bad	壞
+Avg	平均
+• Invested Stocks	• 投資的股票
+• Baby Value	• 嬰兒價值
+Shorts	空單
+• Shorts	• 空單
+Information unknown	資訊未知
+AVG. STOCK PRICE	平均股價
+AVG. SALE PRICE	平均售價
+Peak Stock Price	最高股價
+Loan	借款
+Entry fee	入場費
+Trading gross	交易總額
+Side bet gross	附加賭注總額
+# 程式會在標籤後面加冒號才顯示（UIEndOfDayStatListing 加「:」、UIResultsMenuTradingStat 加「: 」），上面沒冒號的對不上（2026-10-03 實機發現）
+AVG. STOCK PRICE:	平均股價：
+AVG. SALE PRICE:	平均售價：
+Loan:	借款：
+Trading gross:	交易總額：
+Side bet gross:	附加賭注總額：
+WIN	贏
+LOSS	輸
+USED	已使用
+Human	人類
+VERY HEALTHY	非常健康
+# 交易畫面右上的嬰兒卡：健康狀態（UITradingDayHealth.healthTexts，由好到壞）與年齡單位（05 year 02 month）
+HEALTHY	健康
+UNWELL	不適
+CRITICAL	危急
+DEAD	死亡
+year	歲
+month	個月
+AMAZING SHORT!!!	神級放空！！！
+GREAT SHORT	漂亮的放空
+GOOD SHORT	不錯的放空
+BAD SHORT	失敗的放空
+AWFUL SHORT!	糟糕的放空！
+DISASTROUS SHORT!!!	災難級放空！！！
+SHORT THAT BABY	放空那個嬰兒
+No significant updates today.	今天沒有重大更新。
+You lack the funds to trade and must visit the Loan Shark.	你的資金不夠交易，得去找高利貸。
+
+# 劇情規則訊息（資料物件與程式碼）
+Your buying and selling speed has increased.	你的買賣速度提升了。
+Your buying and selling speed has decreased.	你的買賣速度下降了。
+Side bets are now available.	現在可以下附加賭注了。
+Side bets have been disabled.	附加賭注已停用。
+Your costs have increased.	你的成本增加了。
+Your reputation (and debts) precede you. You cannot visit a loan shark.	你的名聲（和債務）早就傳開了。你不能去找高利貸。
+...at double their usual cut.	……抽成是平常的兩倍。
+Willy 'No Hands' Shig is now trading on your behalf.	「無手」威利‧席格現在代你交易。
+...but trading through a proxy is significantly slower.	……但透過代理人交易慢得多。
+The head partners of your firm have barred you from investing into speculative side bets.	公司的資深合夥人禁止你投資投機性的附加賭注。
+You paid the lease for your HiValue Guaranteed trade license.	你付了「高價值保證」交易執照的租金。
+The baby trading market has crashed.	嬰兒交易市場崩盤了。
+Your license fees have been adjusted by the platform.	平台調整了你的執照費。
+Your license fees have been adjusted further.	你的執照費又被調整了。
+Your secondhand trade interface is damaged, but may be able to repaired over time.	你的二手交易介面壞了，但也許能慢慢修好。
+You escaped Sequa Lux. You are never going back.	你逃離了塞夸盧克斯。你再也不會回去了。
+Your trade speed, max stocks, and short values are reduced.	你的交易速度、股票上限和放空價值都降低了。
+You have improved the functionality of your trade interface.	你改善了交易介面的功能。
+You had a medical emergency and are not insured.	你遇上醫療急症，而且沒有保險。
+Your landlord demands an advance on next year's rent.	房東要你預付明年的房租。
+As a fugitive, you cannot trade on the same side of the galaxy two times in a row.	身為逃犯，你不能連續兩次在銀河的同一側交易。
+Entering markets without revealing your identity now requires 200% the normal fee.	現在要隱藏身分進入市場，得付平常 200% 的費用。
+You are trading under extreme duress. Trading day speed increased.	你在極大的壓力下交易。交易日速度提升。
+Your company's regulatory costs have doubled.	你公司的監管成本加倍了。
+Due to the scrutiny placed on a publicly-traded company, you cannot visit a loan shark.	上市公司受到嚴格監督，所以你不能去找高利貸。
+
+# 程式碼拼接的句子
+credits ha	^(.*) credits ha(?:s|ve) been added to your balance\.$	$1 信用點已存入你的帳戶。
+credits ha	^(.*) credits ha(?:s|ve) been subtracted from your balance\.$	已從你的帳戶扣除 $1 信用點。
+The market of	^The market of (.+) is available to trade on\.$	$1 的市場開放交易了。
+# 配額情境：CampaignLogicQuota 用半形空格接 camp.quota.explainmoney 與 explainday，中文去掉逗號後的空格
+配額是	， 須於第	，須於第
+The market of	^The market of (.+) is no longer available\.$	$1 的市場不再開放。
+The market of	^The market of (.+) is not available today\.$	$1 的市場今天不開放。
+Consultant 	^Consultant (.+) is now available to hire\.$	現在可以僱用顧問$1了。
+Consultant 	^Consultant (.+) is no longer working with you\.$	顧問$1不再和你合作了。
+Consultant fee (	^Consultant fee \((\d+)%\)$	顧問費（$1%）
+Consultant fee (	^Consultant fee \((\d+)%\):$	顧問費（$1%）：
+# 今日結算圖表左邊的標籤：UIEndOfDayGraphLine 會接成「Day start: ₷3,500」
+Day start: 	^Day start: +	當日開始：
+# 主選單的每日情境提示：UIMainMenu 在後面接「\n(Current streak: N)」
+NEW Daily Scenario available!	^NEW Daily Scenario available!\n\(Current streak: (\d+)\)$	新的每日情境開放了！\n（目前連續 $1 天）
+# 嬰兒死亡後股票欄的投入總額：UITradingDayStockBox 接成「Total <q=currency>金額」
+Total 	^Total (<q=currency>)	總計 $1
+Stock inventory	^Stock inventory increased to (.+)$	股票庫存增加到 $1
+Stock inventory	^Stock inventory decreased to (.+)$	股票庫存減少到 $1
+Shorting Value	^Shorting Value increased to x(.+)$	放空價值提高到 x$1
+Shorting Value	^Shorting Value decreased to x(.+)$	放空價值降低到 x$1
+DAY 	^DAY (\d+) TOTAL$	第 $1 天合計
+DAY 	^DAY (\d+) TOTAL:$	第 $1 天合計：
+DAY 	^DAY (\d+) OF (\d+)$	第 $1 天／共 $2 天
+DAY 	^DAY (\d+) UPDATE$	第 $1 天更新
+Day 	^Day (\d+) of (\d+):$	第 $1 天／共 $2 天：
+Day 	^Day (\d+)/(\d+)$	第 $1／$2 天
+Day 	^Day (\d+)$	第 $1 天
+# 情境列表左邊的天數「4d」（UIScenarioListingButton）維持英文：2026-10-03 試過「4 天」，欄位太窄，「天」壓到後面的獎盃
+# 劇情結局：UIEndOfCampaign 接成「皮克森 - Day 4 of 4」；劇情選單：「day 2 of 4」（之後再 ToUpper）
+ - Day 	 - Day (\d+) of (\d+)$	 - 第 $1 天／共 $2 天
+day 	^day (\d+) of (\d+)$	第 $1 天／共 $2 天
+# 每日情境的名稱：程式用「Daily」＋英文月份＋日期（DateTime.ToString("MMMM dd")），出現在情境列表與結局
+Daily January 	Daily January (\d+)	每日情境 01/$1
+Daily February 	Daily February (\d+)	每日情境 02/$1
+Daily March 	Daily March (\d+)	每日情境 03/$1
+Daily April 	Daily April (\d+)	每日情境 04/$1
+Daily May 	Daily May (\d+)	每日情境 05/$1
+Daily June 	Daily June (\d+)	每日情境 06/$1
+Daily July 	Daily July (\d+)	每日情境 07/$1
+Daily August 	Daily August (\d+)	每日情境 08/$1
+Daily September 	Daily September (\d+)	每日情境 09/$1
+Daily October 	Daily October (\d+)	每日情境 10/$1
+Daily November 	Daily November (\d+)	每日情境 11/$1
+Daily December 	Daily December (\d+)	每日情境 12/$1
+STATUS: 	^STATUS: 	狀態：
+：	(?<=：)Completed$	已完成
+：	(?<=：)Incomplete$	未完成
+：	(?<=：)Failed$	失敗
+：	(?<=：)Locked$	未解鎖
+：	(?<=：)Not started$	尚未開始
+：	(?<=：)Day (\d+)$	第 $1 天
+% CUT	^(\d+)% CUT$	抽成 $1%
+CONSULTANT CUT: 	^CONSULTANT CUT: NONE$	顧問抽成：無
+CONSULTANT CUT: 	^CONSULTANT CUT: 	顧問抽成：
+Avg. stock price: 	^Avg\. stock price: 	平均股價：
+Daily streak: 	^Daily streak: 	每日連續：
+Daily playstreak: 	^Daily playstreak: 	每日連續遊玩：
+Daily trophies: 	^Daily trophies: 	每日獎盃：
+LOANS TAKEN: 	^LOANS TAKEN: (\d+)$	已借款 $1 次
+LOANS TAKEN OUT: 	^LOANS TAKEN OUT: (\d+)$	已借款 $1 次
+# 高利貸的借款提議（UIPortfolioScreenLoans）：金額後面接「\n(but next time he gets to kill you)」，沒錢時前面加「Debt bailout and 」
+(but next time he gets to kill you)	\n\(but next time he gets to kill you\)$	\n（不過下次他就可以殺了你）
+Debt bailout and 	^Debt bailout and (.)	還清債務，外加 $1
+Total 	^Total (\d+)$	總計 $1
+Stake x	^Stake x	倍率 x
+INFO 	^INFO (\d+)/(\d+)$	資訊 $1/$2
+Earn 	^Earn (.+)$	賺到 $1
+Drop to 	^Drop to (.+)$	跌到 $1
+Likely event: 	^Likely event: 	可能事件：
+Baby Bond: 	^Baby Bond: Lives to be over (\d+) years old$	嬰兒債券：活超過 $1 歲
+Long position: 	^Long position: Stock value will reach (.+)$	做多：股價會漲到 $1
+Short position: 	^Short position: Stock value will drop to (.+)$	放空：股價會跌到 $1
+ days	^(\d+) days$	$1 天
+not started	^not started$	尚未開始
+day 	^day (\d+)$	第 $1 天
+- SLOT 	^- SLOT (\d+) -$	- 存檔 $1 -
+Achieve bronze	^Achieve bronze or higher across (\d+) campaigns\.$	在 $1 段劇情中拿到銅牌以上。

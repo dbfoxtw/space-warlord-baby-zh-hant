@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 編譯前要先裝好 MelonLoader 並啟動過一次遊戲（參考 MelonLoader\net35 的組件）。
+       遊戲不在預設位置時：dotnet build -p:GameDir="遊戲資料夾"
+       遊戲的組件都參考 netstandard 2.1，所以要另外參考遊戲 Managed\ 裡的 netstandard.dll。 -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>SpaceWarlordBabyZhHant</AssemblyName>
+    <RootNamespace>SwbZhHant</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Space Warlord Baby Trading Simulator</GameDir>
+    <ManagedDir>$(GameDir)\Space Warlord Baby Trading Simulator_Data\Managed</ManagedDir>
+    <MelonDir Condition="'$(MelonDir)' == ''">$(GameDir)\MelonLoader\net35</MelonDir>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="$(MelonDir)\MelonLoader.dll" Private="false" />
+    <Reference Include="$(MelonDir)\0Harmony.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\netstandard.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Assembly-CSharp.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.AssetBundleModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.TextCoreFontEngineModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.TextMeshPro.dll" Private="false" />
+  </ItemGroup>
+
+  <!-- 沒裝 .NET Framework 4.8 Developer Pack 的電腦也能編譯（從 NuGet 取得 net48 參考組件，不會打包進 mod） -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
