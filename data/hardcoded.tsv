@@ -41,11 +41,34 @@ Windowed	視窗
 VSYNC	垂直同步
 POST PROCESSING	後製效果
 Reset Tutorial	重設教學
+# 確認框的標題會先 ToUpper()（UIGenericDismissPopUp.Open）
+RESET TUTORIAL	重設教學
 Are you sure you want to reset the tutorial?	確定要重設教學嗎？
 Set Input Device	設定輸入裝置
 Voice Commands	語音指令
 Voice Tutorial	語音教學
 Show Voice Commands	顯示語音指令
+# 語音教學兩頁與語音指令面板（設定→聲音）：場景裡寫死的文字。指令本身只能用英文說，保留英文（面板右欄的 Buy / Left / A 等整條不翻）
+# 第一頁第一行剛好 38 字（494 像素，框寬 500）：再多一個字，結尾的「＊」會掉到下一行開頭（2026-10-03 實測）
+# 「說出按鈕上的文字來選擇」在中文化後失效（按鈕文字是中文，玩家也不知道英文是什麼），使用者 2026-10-03 決定不修、在第一頁說明
+Earn Credits Using Your Voice! - Page 1	用你的聲音賺信用點！（第 1 頁）
+Earn Credits Using Your Voice! - Page 2	用你的聲音賺信用點！（第 2 頁）
+Congratulations, enterprising baby trader! By enabling voice controls on your trade interface you've taken an important step towards TOTAL TRADING IMMERSION.\nPlease familiarize yourself with the following core commands:\n\nBASIC NAVIGATION\n- Menu Navigation: Say "Up," "Down," "Left," or "Right," to navigate any menus.\n- Select Button: Say "Select" or "Space" to select an option in any menus.\n- Pause: Say "Pause" or "Escape" to open the pause menu at any time during gameplay.\n\nADDITIONAL TIPS\n- You can also say the label on any given button with text to select it immediately.\n- Try saying "DOWN" and then "SELECT." If it doesn't work, check your voice settings!	恭喜你，有進取心的嬰兒交易員！在交易介面啟用語音控制，你已朝＊全面交易沉浸＊踏出了重要的一步。\n請熟悉下列核心指令：\n\n基本操作\n- 選單移動：說「Up」「Down」「Left」或「Right」，就能在任何選單中移動。\n- 選擇按鈕：說「Select」或「Space」，就能在任何選單中選擇選項。\n- 暫停：遊戲中隨時說「Pause」或「Escape」，就能打開暫停選單。\n\n其他提示\n- 原版可以說出按鈕上的文字來選擇按鈕，中文化後無法使用。\n- 試著說「DOWN」再說「SELECT」。沒反應的話，檢查一下你的語音設定！
+TRADING DAY\n- Say "Buy" to buy a stock.\n- Say "Sell" to sell a stock.\n- Say "Short" or "SHORT THAT BABY!" to initiate a short.\n- Say "Short" again or "Cash Out" to cash out an active short.\n\n\nTIPS\n- Wanna buy or sell faster? Say it over and over! The more frantic the better! The voice system feeds off your adrenaline!	交易日\n- 說「Buy」買進一股。\n- 說「Sell」賣出一股。\n- 說「Short」或「SHORT THAT BABY!」開始放空。\n- 再說一次「Short」或說「Cash Out」，兌現進行中的放空。\n\n\n提示\n- 想買賣得更快？一直說就對了！越瘋狂越好！語音系統靠你的腎上腺素運作！
+Buy -	買進：
+Sell -	賣出：
+Short / Cash Out -	放空／兌現：
+Navigate Up -	往上：
+Navigate Down -	往下：
+Navigate Left -	往左：
+Navigate Right -	往右：
+Menu Select -	選擇：
+Menu Cancel -	取消：
+Pause Game -	暫停遊戲：
+Tab Left -	分頁往左：
+Tab Right -	分頁往右：
+Alt 1 (Variable) -	功能鍵 1（依畫面而定）：
+Alt 2 (Variable) -	功能鍵 2（依畫面而定）：
 CONTENT WARNING	內容警告
 ABOUT THIS GAME	關於本遊戲
 PAUSED	暫停
@@ -102,6 +125,9 @@ MISC.	其他
 NAMES	頭銜
 PORTRAITS	頭像
 TOGGLE BEST	切換最佳紀錄
+# 情境選單右側的重新開始按鈕（場景裡是「RESET\n」）；模式選擇與劇情選單的「顯示更多」（目前隱藏）
+RESET	重新開始
+SHOW MORE	顯示更多
 More scenarios coming soon.	更多情境即將推出。
 COMPLETE - Return tomorrow.	完成——明天再來。
 FAILED - Return tomorrow.	失敗——明天再來。
@@ -127,6 +153,9 @@ Not started	尚未開始
 NOT STARTED	尚未開始
 Campaign not yet available.	劇情尚未開放。
 Starting funds:	起始資金：
+# UIScenarioHoverDetails：已完成的情境顯示最佳紀錄，每日情境顯示結果
+Best:	最佳紀錄：
+Result:	結果：
 BEST:	最佳紀錄：
 Available Planets	可交易的星球
 Consultants	顧問
@@ -139,6 +168,8 @@ NEW Daily Scenario available!	新的每日情境開放了！
 LEGALLY MURDERED	合法謀殺
 RUINED	破產
 A randomized daily challenge.	隨機產生的每日挑戰。
+# CampaignBlueprint.GetCampaignShortDescription：每日情境的說明是整句
+A randomized daily challenge.\n\nYou only get one attempt, and backing out is a failure.	隨機產生的每日挑戰。\n\n只有一次機會，中途退出就算失敗。
 FINAL DAY	最後一天
 
 # 交易
@@ -207,6 +238,7 @@ Higher stakes recommended.	建議提高倍率。
 Entry fee:	入場費：
 Cannot afford to trade.	付不起交易費用。
 Low Funds	資金不足
+LOW FUNDS	資金不足
 INTERFERENCE	干擾
 ODDS	賠率
 # 預測的賠率：UIPreTradingBookieBet 組成「1 to 5 (20%)」，押中拿回本金×5/1（BabyBet.GetWinnings），所以譯「1 賠 5」。
@@ -356,14 +388,26 @@ Debt bailout and 	^Debt bailout and (.)	還清債務，外加 $1
 Total 	^Total (\d+)$	總計 $1
 Stake x	^Stake x	倍率 x
 INFO 	^INFO (\d+)/(\d+)$	資訊 $1/$2
-Earn 	^Earn (.+)$	賺到 $1
-Drop to 	^Drop to (.+)$	跌到 $1
+# 劇情目標（CampaignGoal.GetDescription）：後面只接金額（可能有 <c=…> 標籤），不要套到「Earn Credits Using Your Voice!」這種句子
+Earn 	^Earn ((?:<[^>]*>|[^A-Za-z])*\d(?:<[^>]*>|[^A-Za-z])*)$	賺到 $1
+Drop to 	^Drop to ((?:<[^>]*>|[^A-Za-z])*\d(?:<[^>]*>|[^A-Za-z])*)$	跌到 $1
 Likely event: 	^Likely event: 	可能事件：
 Baby Bond: 	^Baby Bond: Lives to be over (\d+) years old$	嬰兒債券：活超過 $1 歲
 Long position: 	^Long position: Stock value will reach (.+)$	做多：股價會漲到 $1
 Short position: 	^Short position: Stock value will drop to (.+)$	放空：股價會跌到 $1
  days	^(\d+) days$	$1 天
+# 情境清單的天數「3d」（UIScenarioListingButton）不翻：「20天」會壓到右邊的獎盃（實測與照版面計算都是），使用者 2026-10-03 決定維持英文
 not started	^not started$	尚未開始
 day 	^day (\d+)$	第 $1 天
 - SLOT 	^- SLOT (\d+) -$	- 存檔 $1 -
 Achieve bronze	^Achieve bronze or higher across (\d+) campaigns\.$	在 $1 段劇情中拿到銅牌以上。
+# 情境選單的進度更新（UIScenarioUpdatesMenu）：頭銜是 I2 的 LocalizedString，已經是中文
+Levelled up!	交易等級提升了！
+New trophy earned.	獲得一座新獎盃。
+Total money increased.	總收益增加了。
+Portrait unlocked.	解鎖新頭像。
+ new trophies earned.	^(\d+) new trophies earned\.$	獲得 $1 座新獎盃。
+Title unlocked: '	^Title unlocked: '(.*)'$	解鎖頭銜：「$1」
+# 傾斜事件「封鎖星球」（TiltPlanetBlocker）：「Blocking 」接星球名，多個用「, 」隔開（星球名已經是中文）；先換逗號再換開頭
+Blocking 	, 	、
+Blocking 	^Blocking 	封鎖星球：

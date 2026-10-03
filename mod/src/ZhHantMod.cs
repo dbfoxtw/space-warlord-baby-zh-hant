@@ -11,7 +11,7 @@ using MelonLoader.Utils;
 using TMPro;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(SwbZhHant.ZhHantMod), "Space Warlord Baby 繁體中文", "1.0.1", "dbfoxtw")]
+[assembly: MelonInfo(typeof(SwbZhHant.ZhHantMod), "Space Warlord Baby 繁體中文", "1.0.2", "dbfoxtw")]
 [assembly: MelonGame("Strange Scaffold", "Space Warlord Baby Trading Simulator")]
 [assembly: HarmonyDontPatchAll] // 翻譯資料載入後才手動掛上攔截
 

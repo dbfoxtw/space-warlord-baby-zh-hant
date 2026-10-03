@@ -27,7 +27,7 @@ MelonLoader 本身要另外移除：刪除 version.dll、MelonLoader、Mods、Pl
 
 【說明】
 - 不修改遊戲檔。存檔裡的玩家稱號、收藏的嬰兒會存成英文、讀檔時再換成中文，存檔內容和原版相同。拔掉 mod 就回到原版英文。
-- 語音指令仍然只能用英文（遊戲只辨識英文），說明文字會保留英文指令。
+- 語音指令仍然只能用英文（遊戲只辨識英文），說明文字會保留英文指令。說出按鈕上的文字來選擇按鈕的功能，在中文化後無法使用（按鈕已經是中文）。
 - 製作群名單維持英文。
 - 遊戲更新後，改過的英文會維持英文、不顯示過時的譯文；新增的文字也是英文，等 mod 更新。
 - 已知衝突：其他翻譯 mod，以及同樣修改 SuperTextMesh、TextMeshPro 文字或字型的 mod。
@@ -69,7 +69,7 @@ bookmarked babies in Chinese; saving once with v1.0.1 or later turns them back i
 
 Notes
 - Game files are never modified. Save fields that store displayed text are written in English, so saves stay unmodded.
-- Voice commands still only work in English (the game only recognizes English).
+- Voice commands still only work in English (the game only recognizes English). Selecting a button by saying its label no longer works, since the labels are in Chinese.
 - The credits stay in English.
 - After a game update, changed English lines stay in English instead of showing outdated translations.
 - Known conflicts: other translation mods, and mods that change SuperTextMesh or TextMeshPro text or fonts.

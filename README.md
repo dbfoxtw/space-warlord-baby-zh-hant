@@ -14,7 +14,7 @@
 
 - 遊戲只有英文。這個 mod 把劇情、星球與嬰兒的人生事件、顧問台詞、介面翻成繁體中文（台灣用語），裝好就是中文，不用另外設定。
 - 附中文像素字型（俐方體11號的修改版），配合遊戲低解析度畫面的字級，中文清楚不糊。
-- 語音指令仍然只能用英文（遊戲只辨識英文），說明文字會保留英文指令。
+- 語音指令仍然只能用英文（遊戲只辨識英文），說明文字會保留英文指令。說出按鈕上的文字來選擇按鈕的功能，在中文化後無法使用（按鈕已經是中文）。
 
 ## 安裝
 
@@ -107,7 +107,7 @@ To update the mod, just repeat step 2.
 
 **Notes**
 
-- Voice commands still only work in English (the game only recognizes English); their descriptions keep the English commands.
+- Voice commands still only work in English (the game only recognizes English); their descriptions keep the English commands. Selecting a button by saying its label no longer works, since the labels are in Chinese.
 - The credits stay in English.
 - Known conflicts: other translation mods, and mods that change SuperTextMesh or TextMeshPro text or fonts.
 - How it works: the game is a Unity Mono build, hooked through MelonLoader (Harmony). When the I2 Localization language table loads, the mod replaces its English column with the translation, matched by term name. Each translation stores a hash of the English text it was made from; if a game update changes that text, the entry stays in English instead of showing an outdated translation. A few strings hard-coded in scenes or code are translated right before display. Game files are never modified. The few save fields that store displayed text (scenario title, bookmarked babies) are written in English and translated back on load, so saves stay identical to the unmodded format.
